@@ -1,0 +1,17 @@
+# Maven
+/target/
+*.log
+# IntelliJ / IDE
+/.idea/
+*.iml
+/.vscode/
+# Segredos e arquivos locais
+.env
+.env.*
+!.env.example
+*.jks
+*.p12
+*.pem
+# Sistema operacional
+.DS_Store
+Thumbs.db
