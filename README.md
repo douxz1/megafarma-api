@@ -152,7 +152,8 @@ O script `sql/estrutura_oracle.sql` é uma **referência para um banco novo**. *
 
 ## 🚀 Deploy no Render
 
-**https://megafarma-api-kzze.onrender.com
+**[https://megafarma-api-kzze.onrender.com](https://megafarma-api-kzze.onrender.com/api/clientes)](https://megafarma-api-kzze.onrender.com/api/clientes)
+https://megafarma-api-kzze.onrender.com/health
 
 ## 📁 Organização
 
