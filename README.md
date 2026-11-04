@@ -149,58 +149,10 @@ DDD_CLIENTES (CODIGO PK)
 
 O script `sql/estrutura_oracle.sql` é uma **referência para um banco novo**. **Não execute** o script sobre suas tabelas já criadas — comandos `CREATE TABLE` repetidos causam erro. A API não cria as tabelas automaticamente.
 
-## 🖥️ Executar localmente
-
-**Pré-requisitos:** JDK 21, acesso a um banco Oracle com as tabelas criadas e Maven (ou o Maven Wrapper do repositório).
-
-Configure as variáveis de ambiente no IntelliJ em **Run → Edit Configurations → Environment variables**:
-
-| Variável | Descrição |
-| :--- | :--- |
-| `DB_URL` | URL JDBC Oracle, por exemplo `jdbc:oracle:thin:@//HOST:1521/SERVICE_NAME` |
-| `DB_USER` | Usuário do Oracle |
-| `DB_PASSWORD` | Senha do Oracle |
-| `PORT` | Opcional; padrão local: `8080` |
-
-O arquivo `.env.example` é apenas um modelo e **não contém credenciais reais**.
-
-No Windows:
-
-```powershell
-.\mvnw.cmd spring-boot:run
-```
-
-No Linux/macOS:
-
-```bash
-./mvnw spring-boot:run
-```
-
-Se as variáveis estiverem disponíveis ao processo Java, a API inicia em `http://localhost:8080` e a verificação simples fica em `http://localhost:8080/health`.
 
 ## 🚀 Deploy no Render
 
-1. Suba **o conteúdo desta pasta** para a raiz de um repositório GitHub (o arquivo `Dockerfile` deve ficar ao lado do `pom.xml`).
-2. No [Render Dashboard](https://dashboard.render.com/), escolha **New → Web Service**.
-3. Conecte seu repositório do GitHub.
-4. Em **Language**, selecione **Docker**; o caminho do Dockerfile será `./Dockerfile`.
-5. Adicione as variáveis no painel **Environment** (não no código): `DB_URL`, `DB_USER`, `DB_PASSWORD`.
-6. Configure o health check HTTP como `/health`, se desejar, e crie o serviço.
-7. Depois que o deploy terminar, teste `https://SEU-SERVICO.onrender.com/health` e `https://SEU-SERVICO.onrender.com/api/clientes`.
-
-A aplicação usa `server.port=${PORT:8080}` e escuta em `0.0.0.0`, compatível com o mecanismo de portas do Render.
-
-### ⚠️ Conexão Oracle da FIAP
-
-**Deploy da aplicação ≠ acesso garantido ao banco.** O serviço hospedado precisa alcançar o host e a porta do Oracle. Se o banco da FIAP estiver restrito à rede acadêmica ou VPN, `/health` pode funcionar enquanto os endpoints do banco respondem com erro. Nesse caso, será necessário obter acesso externo autorizado ou usar outro banco acessível, respeitando as exigências da disciplina.
-
-### Segurança
-
-- Nunca publique senhas ou URLs que contenham credenciais no README, código, logs ou screenshots.
-- Credenciais devem ser mantidas nas variáveis do Render e do ambiente local.
-- O CORS atual permite todas as origens, adequado para desenvolvimento; restrinja os domínios quando houver front-end público.
-- A API acadêmica não implementa autenticação/autorização. Evite expor dados pessoais reais em uma URL pública.
-- Caso algum segredo tenha sido compartilhado anteriormente, altere-o antes da publicação.
+**https://megafarma-api-kzze.onrender.com
 
 ## 📁 Organização
 
@@ -213,10 +165,6 @@ src/main/java/megafarma/
 ├── exception/       # Tratamento de erros
 └── to/              # Modelos de transporte
 ```
-
-## ✅ Situação dos testes
-
-Os CRUDs foram testados **localmente** com Insomnia e Oracle durante o desenvolvimento. O deploy no Render depende da compilação do container e da conectividade de rede com o Oracle. O endpoint `/health` indica que o processo web está acessível, **não** que o banco esteja conectado.
 
 ---
 
