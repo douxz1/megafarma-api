@@ -1,12 +1,6 @@
 .git
-.gitignore
 .idea
-.vscode
 target
-*.iml
 .env
-.env.*
-!.env.example
 *.log
-*.zip
 README.md

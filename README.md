@@ -1,176 +1,130 @@
 <div align="center">
 
-# 💊 MegaFarma
-### API REST de gerenciamento farmacêutico
+# 🌱 EcoAções
+### API REST de ações sustentáveis
 
-**Java 21 · Spring Boot 4 · Oracle Database · Maven · Docker · Render**
+**Java 21 · Spring Boot 4 · Maven · Docker · Render**
 
-Uma API para cadastrar clientes e medicamentos, registrar vendas e administrar itens vendidos, desenvolvida como projeto acadêmico da FIAP.
-
-[Endpoints](#-endpoints) · [Execução local](#-executar-localmente) · [Deploy no Render](#-deploy-no-render) · [Banco de dados](#-banco-de-dados)
+Gerencie ações ecológicas com categorias, descrições e pontos de incentivo.
 
 </div>
 
 ---
 
-## ✨ Sobre o projeto
+## ♻️ Sobre
 
-O **MegaFarma** é um back-end REST com operações CRUD para quatro entidades relacionadas:
+O projeto foi transformado em uma API de sustentabilidade. **Não existem mais recursos de clientes, medicamentos, vendas ou itens vendidos no código desta versão.**
 
-| Entidade | Funcionalidade | Rota base |
-| :--- | :--- | :--- |
-| 👤 Clientes | Cadastro e consulta de clientes | `/api/clientes` |
-| 💊 Remédios | Gestão do catálogo de medicamentos | `/api/remedios` |
-| 🧾 Vendas | Registro de vendas por cliente | `/api/vendas` |
-| 📦 Itens vendidos | Remédios e quantidades de cada venda | `/api/itens-vendidos` |
+Cada ação possui:
+- `id` — identificador numérico;
+- `categoria` — por exemplo, CONSUMO, RECICLAGEM, ENERGIA ou MOBILIDADE;
+- `titulo` — nome da ação;
+- `descricao` — orientação de como realizar a ação;
+- `pontos` — recompensa de gamificação.
 
-### Arquitetura
+### 🌿 Ação de exemplo
 
-```text
-Requisição HTTP (Insomnia / Front-end)
-                  │
-                  ▼
-             Resource
-                  │
-                  ▼
-             BO (regras)
-                  │
-                  ▼
-             DAO (JDBC)
-                  │
-                  ▼
-           Oracle Database
+```json
+{
+  "id": 4,
+  "categoria": "CONSUMO",
+  "titulo": "Evitar descartáveis",
+  "descricao": "Use garrafa, caneca ou talheres reutilizáveis durante o dia.",
+  "pontos": 50
+}
 ```
-
-- **Resource:** recebe as chamadas HTTP e retorna respostas REST.
-- **BO:** aplica validações e regras de negócio.
-- **DAO:** executa as consultas SQL por meio de JDBC.
-- **TO:** transporta os dados entre as camadas.
-- **CorsFilter:** configura CORS para as rotas da API.
-- **GlobalExceptionHandler:** padroniza alguns erros HTTP.
-
-## 🧰 Tecnologias
-
-- Java **21**
-- Spring Boot **4.1.2** / Spring Web MVC
-- Maven
-- Oracle Database / Oracle JDBC
-- Docker (build multistage)
-- Insomnia para testes de endpoints
-- Render para hospedagem
 
 ## 🔗 Endpoints
 
-| Método | Rota | Ação |
-| :---: | :--- | :--- |
-| `GET` | `/api/clientes` | Listar clientes |
-| `GET` | `/api/clientes/{codigo}` | Buscar cliente |
-| `POST` | `/api/clientes` | Cadastrar cliente |
-| `PUT` | `/api/clientes/{codigo}` | Atualizar cliente |
-| `DELETE` | `/api/clientes/{codigo}` | Excluir cliente |
-| `GET` | `/api/remedios` | Listar remédios |
-| `GET` | `/api/remedios/{codigo}` | Buscar remédio |
-| `POST` | `/api/remedios` | Cadastrar remédio |
-| `PUT` | `/api/remedios/{codigo}` | Atualizar remédio |
-| `DELETE` | `/api/remedios/{codigo}` | Excluir remédio |
-| `GET` | `/api/vendas` | Listar vendas |
-| `GET` | `/api/vendas/{codigo}` | Buscar venda |
-| `POST` | `/api/vendas` | Registrar venda |
-| `PUT` | `/api/vendas/{codigo}` | Atualizar venda |
-| `DELETE` | `/api/vendas/{codigo}` | Excluir venda |
-| `GET` | `/api/itens-vendidos` | Listar itens |
-| `GET` | `/api/itens-vendidos/{codVenda}/{codRemedio}` | Buscar item |
-| `POST` | `/api/itens-vendidos` | Cadastrar item |
-| `PUT` | `/api/itens-vendidos/{codVenda}/{codRemedio}` | Atualizar quantidade |
-| `DELETE` | `/api/itens-vendidos/{codVenda}/{codRemedio}` | Excluir item |
-| `GET` | `/health` | Verificar se a aplicação HTTP está no ar |
+| Método | Endpoint | Descrição |
+|:--|:--|:--|
+| GET | `/api/acoes` | Listar todas as ações |
+| GET | `/api/acoes/{id}` | Consultar uma ação |
+| POST | `/api/acoes` | Cadastrar ação |
+| PUT | `/api/acoes/{id}` | Editar ação |
+| DELETE | `/api/acoes/{id}` | Excluir ação |
+| GET | `/health` | Verificar a aplicação |
+| GET | `/` | Informações da API |
 
-**Exemplo de POST de cliente:**
+### POST — cadastrar ação
 
 ```http
-POST /api/clientes
+POST /api/acoes
 Content-Type: application/json
 ```
 
 ```json
 {
-  "codigo": 1,
-  "nome": "Cliente Exemplo",
-  "cpf": "12345678900",
-  "email": "cliente@exemplo.com",
-  "dataDeNascimento": "2005-05-15"
+  "categoria": "ÁGUA",
+  "titulo": "Reduzir tempo de banho",
+  "descricao": "Diminua o tempo do banho para evitar desperdício de água.",
+  "pontos": 35
 }
 ```
 
-**Exemplo de POST de remédio:**
+**Resposta:** `201 Created`, com o objeto cadastrado e o `id` criado automaticamente.
+
+### PUT — editar ação
+
+```http
+PUT /api/acoes/4
+Content-Type: application/json
+```
 
 ```json
 {
-  "codigo": 1,
-  "nome": "Dipirona 500mg",
-  "preco": 12.50,
-  "dataDeFabricacao": "2026-01-10",
-  "dataDeValidade": "2028-01-10"
+  "categoria": "CONSUMO",
+  "titulo": "Evitar descartáveis",
+  "descricao": "Leve uma garrafa e talheres reutilizáveis.",
+  "pontos": 50
 }
 ```
 
-**Exemplo de POST de venda:**
+### DELETE — remover ação
 
-```json
-{
-  "codigo": 1,
-  "dataDaVenda": "2026-11-04",
-  "codCliente": 1
-}
+```http
+DELETE /api/acoes/4
 ```
 
-**Exemplo de POST de item vendido:**
+**Resposta:** `204 No Content`.
 
-```json
-{
-  "codVenda": 1,
-  "codRemedio": 1,
-  "quantidade": 2
-}
+## 🛠️ Executar localmente
+
+Requisitos: **JDK 21** e **Maven 3.9+**.
+
+```bash
+mvn spring-boot:run
 ```
 
-> Antes de registrar uma venda, crie o cliente. Antes de registrar um item, crie a venda e o remédio. As chaves estrangeiras precisam existir no banco.
+Abra `http://localhost:8080/api/acoes`.
 
-## 🗄️ Banco de dados
+## 🐳 Deploy no Render
 
-A aplicação utiliza quatro tabelas Oracle:
+1. Crie ou atualize um **Web Service** conectado ao repositório.
+2. Selecione `main` como branch e `Docker` como runtime.
+3. Use `Dockerfile` na raiz.
+4. Faça **Deploy latest commit**.
+5. Acesse `https://SEU-SERVICO.onrender.com/api/acoes`.
 
-```text
-DDD_CLIENTES (CODIGO PK)
-     └── DDD_VENDAS (CODIGO PK, CODCLIENTE FK)
-                 └── DDD_ITENSVENDIDOS (CODVENDA + CODREMEDIO PK composta)
-                                     └── DDD_REMEDIOS (CODIGO PK)
-```
+Não é necessário configurar Oracle ou variáveis `DB_*` para esta versão.
 
-O script `sql/estrutura_oracle.sql` é uma **referência para um banco novo**. **Não execute** o script sobre suas tabelas já criadas — comandos `CREATE TABLE` repetidos causam erro. A API não cria as tabelas automaticamente.
+## ⚠️ Persistência
 
+**Versão demonstrativa:** as ações são mantidas na memória da aplicação. Ao reiniciar o serviço no Render, os dados retornam às quatro ações iniciais. Não utilizar para dados permanentes. Futuramente, pode ser integrado um banco de dados externo.
 
-## 🚀 Deploy no Render
-
-**[https://megafarma-api-kzze.onrender.com](https://megafarma-api-kzze.onrender.com/api/clientes)](https://megafarma-api-kzze.onrender.com/api/clientes)
-https://megafarma-api-kzze.onrender.com/health
-
-## 📁 Organização
+## 📁 Estrutura
 
 ```text
 src/main/java/megafarma/
-├── bo/              # Regras de negócio
-├── ClienteResource/ # Controllers REST (nome preservado do projeto original)
-├── config/          # CORS e health check
-├── dao/             # JDBC e ConnectionFactory
-├── exception/       # Tratamento de erros
-└── to/              # Modelos de transporte
+  MegafarmaApplication.java
+  sustentabilidade/
+    AcaoResource.java
+    ApiResource.java
+    ErroResource.java
+src/main/resources/application.properties
+pom.xml
+Dockerfile
+README.md
 ```
 
----
-
-<div align="center">
-
-**MegaFarma** · Projeto acadêmico de API REST · FIAP
-
-</div>
+> Os arquivos antigos de farmácia não fazem parte desta nova versão do código; foram preservados somente na branch de backup `backup/versao-farmacia-2026-11-04`.
