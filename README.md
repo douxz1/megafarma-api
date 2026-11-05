@@ -100,13 +100,8 @@ Abra `http://localhost:8080/api/acoes`.
 
 ## 🐳 Deploy no Render
 
-1. Crie ou atualize um **Web Service** conectado ao repositório.
-2. Selecione `main` como branch e `Docker` como runtime.
-3. Use `Dockerfile` na raiz.
-4. Faça **Deploy latest commit**.
-5. Acesse `https://SEU-SERVICO.onrender.com/api/acoes`.
-
-Não é necessário configurar Oracle ou variáveis `DB_*` para esta versão.
+1. https://megafarma-api-kzze.onrender.com/
+2.https://megafarma-api-kzze.onrender.com/api/acoes
 
 ## ⚠️ Persistência
 
