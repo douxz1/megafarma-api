@@ -1,3 +1,5 @@
+> 🌱 **NOVO: Módulo de Sustentabilidade** — API de ações ecológicas, participantes, registros e ranking. Consulte [SUSTENTABILIDADE.md](SUSTENTABILIDADE.md) para endpoints e exemplos. A API farmacêutica original foi preservada nesta branch.
+
 <div align="center">
 
 # 💊 MegaFarma
